@@ -9,5 +9,9 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
+
+  console.log("Request Id: ", req.headers['x-vercel-id']);
+  console.log("Parent Request Id: ", req.headers['x-parent-request-id']);
+
   res.status(200).json({ name: "John Doe" });
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import {GetServerSideProps} from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +12,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// @ts-ignore
+export async function getServerSideProps({ req}) {
+  const requestId = req.headers['x-vercel-id'] as string || "";
+
+  console.log("User's req id: ", requestId);
+
+  await fetch(`http://${req.headers['host']}/api/hello`,{
+    method: "GET",
+    headers:{
+      "x-parent-request-id":requestId
+    }
+  });
+
+  return {
+    props: {},
+  }
+}
 export default function Home() {
   return (
     <div
